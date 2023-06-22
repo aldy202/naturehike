@@ -9,7 +9,7 @@ Terdapat juga fitur ""pending"" dimana jika alat sudah dikembalikan maka admin b
 
 
 ## 1. Flowchart
-![Alt text](screenshoot/flowchart.jpg)
+![Alt text](screenshoot/flowchartapk.jpg)
 
 ## 2. UseCase
 ![Alt text](screenshoot/use%20case.jpg)
