@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:614663065646:android:0f1857a1863d66bf1d0fbf",
+        "mobilesdk_app_id": "1:614663065646:android:46dfbfd5825cabb61d0fbf",
         "android_client_info": {
-          "package_name": "com.android.application"
+          "package_name": "com.example.naturehike"
         }
       },
       "oauth_client": [
