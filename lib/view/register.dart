@@ -115,6 +115,26 @@ class Register extends StatelessWidget {
                         );
                       } else {
                         //register gagal
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Register Failed'),
+                                content: const Text(
+                                    'An error occurend during registration'),
+                                actions: <Widget>[
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Register()));
+                                      },
+                                      child: const Text('Ok'))
+                                ],
+                              );
+                            });
                       }
                     }
                   },
