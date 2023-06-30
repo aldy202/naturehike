@@ -37,4 +37,36 @@ class AuthController {
   }
 
   //register
+  Future<UserModel?> registerWithEmailAndPassword(
+      String email, String password, String name, String cabang) async {
+    try {
+      final UserCredential userCredential = await auth
+          .createUserWithEmailAndPassword(email: email, password: password);
+      final User? user = userCredential.user;
+
+      if (user != null) {
+        final UserModel newUser = UserModel(
+            name: name, email: user.email ?? '', cabang: cabang, uId: user.uid);
+
+        await userCollection.doc(newUser.uId).set(newUser.toMap());
+
+        return newUser;
+      }
+    } catch (e) {
+      print('Error registering user: $e');
+    }
+  }
+
+  UserModel? getCurrentUser() {
+    final User? user = auth.currentUser;
+    if (user != null) {
+      return UserModel.fromFirebaseUser(user);
+    }
+
+    return null;
+  }
+
+  Future<void> signOut() async {
+    await auth.signOut();
+  }
 }
