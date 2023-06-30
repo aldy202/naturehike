@@ -7,7 +7,7 @@ import 'package:naturehike/view/home.dart';
 import 'package:naturehike/view/register.dart';
 
 class Login extends StatelessWidget {
-    Login({Key? key}) : super(key: key);
+  Login({Key? key}) : super(key: key);
 
   final formKey = GlobalKey<FormState>();
 
@@ -20,127 +20,167 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Form(
-          key: formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextFormField(
-                decoration: const InputDecoration(hintText: "Email"),
-                onChanged: (value) {
-                  email = value;
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                decoration: const InputDecoration(hintText: "Password"),
-                onChanged: (value) {
-                  password = value;
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Don't have an account?",
-                    style: TextStyle(
-                      fontSize: 14,
+      appBar: null,
+      resizeToAvoidBottomInset: false,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(3),
+          child: Form(
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(height: 80),
+                Image.asset(
+                  'assets/images/hiking.png',
+                  width: 150,
+                  height: 150,
+                ),
+                SizedBox(height: 20),
+                Text(
+                  "LOGIN !!!",
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  "Selamat Datang di Aplikasi NatureHike",
+                  style: TextStyle(
+                    fontSize: 14,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 20),
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Email",
+                    prefixIcon: Icon(Icons.email),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Register()),
-                      );
-                    },
-                    child: Text(
-                      "Register",
-                      style: TextStyle(
-                        color: Colors.amber,
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
+                  onChanged: (value) {
+                    // Do something with the value
+                    email = value;
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 10),
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Password",
+                    prefixIcon: Icon(Icons.lock),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onChanged: (value) {
+                    // Do something with the value
+                    password = value;
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green, // Ganti dengan warna yang diinginkan
+                  ),
+                  child: const Text('Login'),
+                  onPressed: () async {
+                    // Handle login button press
+                    if (formKey.currentState!.validate()) {
+                      UserModel? loggedInUser = await authController
+                          .signWithEmailAndPassword(email!, password!);
+
+                      if (loggedInUser != null) {
+                        // Login successful
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('Login Successful'),
+                              content: const Text(
+                                  'You have been successfully logged in.'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Home()),
+                                    );
+                                    print(loggedInUser.name);
+                                    // Navigate to the next screen or perform any desired action
+                                  },
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      } else {
+                        // Login failed
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('Login Failed'),
+                              content: const Text('Invalid email or password.'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Login()),
+                                    );
+                                  },
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    }
+                  },
+                ),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Don't have an account?"),
+                    TextButton(
+                      onPressed: () {
+                        // Handle register button press
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Register()),
+                        );
+                      },
+                      child: Text(
+                        'Register',
+                        style: TextStyle(
+                          color: Colors.green,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                child: const Text('Login'),
-                onPressed: () async {
-                  if (formKey.currentState!.validate()) {
-                    UserModel? loggedInUser = await authController
-                        .signWithEmailAndPassword(email!, password!);
-
-                    if (loggedInUser != null) {
-                      // Login successful
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('Login Successful'),
-                            content: const Text(
-                                'You have been successfully logged in.'),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Home()),
-                                  );
-                                  print(loggedInUser.name);
-                                  // Navigate to the next screen or perform any desired action
-                                },
-                                child: const Text('OK'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    } else {
-                      // Login failed
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('Login Failed'),
-                            content: const Text('Invalid email or password.'),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Login()),
-                                  );
-                                },
-                                child: const Text('OK'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    }
-                  }
-                },
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
