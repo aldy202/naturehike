@@ -17,23 +17,34 @@ class Register extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Register"),
-      ),
+      appBar: AppBar(title: const Text("Register")),
+      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: Form(
             key: formkey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                Text(
+                  "REGISTER",
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 20),
                 TextFormField(
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please type an name';
                     }
                   },
-                  decoration: InputDecoration(hintText: "Name"),
+                  decoration: InputDecoration(
+                      hintText: "Name",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10))),
                   onChanged: (value) {
                     name = value;
                   },
@@ -47,7 +58,10 @@ class Register extends StatelessWidget {
                       return 'Please type an email';
                     }
                   },
-                  decoration: InputDecoration(hintText: "Email"),
+                  decoration: InputDecoration(
+                      hintText: "Email",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10))),
                   onChanged: (value) {
                     email = value;
                   },
@@ -61,7 +75,10 @@ class Register extends StatelessWidget {
                       return 'Please type an cabang toko';
                     }
                   },
-                  decoration: InputDecoration(hintText: "Cabang Toko"),
+                  decoration: InputDecoration(
+                      hintText: "Cabang Toko",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10))),
                   onChanged: (value) {
                     cabang = value;
                   },
@@ -75,7 +92,10 @@ class Register extends StatelessWidget {
                       return "Your password needs to be at least 6 characters";
                     }
                   },
-                  decoration: InputDecoration(hintText: "password"),
+                  decoration: InputDecoration(
+                      hintText: "password",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10))),
                   onChanged: (value) {
                     password = value;
                   },
@@ -84,6 +104,9 @@ class Register extends StatelessWidget {
                   height: 10,
                 ),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green, // Ganti dengan warna yang diinginkan
+                  ),
                   child: Text('Register'),
                   onPressed: () async {
                     if (formkey.currentState!.validate()) {
