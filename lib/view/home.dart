@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:naturehike/view/barang.dart';
+import 'package:naturehike/view/peminjam.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -13,47 +15,38 @@ class Home extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Icon(Icons.menu),
-                  Image.asset(
-                    "assets/images/hiking.png",
-                    height: 100,
-                    width: 100,
-                  )
-                ],
-              ),
-              Row(
-                children: [
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "Hii",
-                          style: TextStyle(
-                              color: Color(0xfffD6D8D),
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        TextSpan(
-                          text: "Aldy",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ],
+              Padding(
+                padding: const EdgeInsets.only(top: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Hii ",
+                            style: TextStyle(
+                                color: Color.fromRGBO(0, 255, 17, 1),
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          TextSpan(
+                            text: "Aldy",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Icon(
-                    Icons.handshake,
-                    color: Colors.amber,
-                  )
-                ],
+                    Image.asset(
+                      "assets/images/person.png",
+                      height: 50,
+                      width: 50,
+                    ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 10,
@@ -62,28 +55,19 @@ class Home extends StatelessWidget {
                 "Welcome Admin",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
+              Text(
+                "Cabang NatureHike",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+              ),
               SizedBox(
                 height: 10,
               ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 50,
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 20,
-                      color: Colors.grey.withOpacity(0.5),
-                    )
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: TextField(
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: "Find Your Course...",
-                      suffixIcon: Icon(Icons.search)),
-                ),
+              Column(
+                children: [
+                  Image.asset(
+                    "assets/images/background.png",
+                  )
+                ],
               ),
               SizedBox(
                 height: 10,
@@ -95,7 +79,7 @@ class Home extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Choose Your Coures",
+                        "Choose Your Feature",
                       ),
                       SizedBox(
                         height: 5,
@@ -103,30 +87,136 @@ class Home extends StatelessWidget {
                       Container(
                         width: 60,
                         height: 4,
-                        color: Color(0xffFD6D8D),
+                        color: Color.fromARGB(255, 0, 242, 81),
                       )
                     ],
                   ),
                 ],
               ),
               SizedBox(
-                height: 5,
+                height: 20,
               ),
-              Container(
-                width: 120,
-                height: 160,
-                decoration: BoxDecoration(
-                  color: Color(0xffEF7A80),
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(50),
-                    bottomLeft: Radius.circular(50), 
-                  )
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Category(
+                      color: Color.fromARGB(255, 0, 154, 59),
+                      imgurl: "assets/images/tools.png",
+                      caption: "List Alat Hiking"),
+                  CategoryLeft(
+                      color: Color.fromARGB(255, 0, 214, 36),
+                      imgurl: "assets/images/camping.png",
+                      caption: "Peminjam Alat Hiking"),
+                ],
               ),
             ],
           ),
         ),
       )),
+    );
+  }
+}
+
+class Category extends StatelessWidget {
+  final Color color;
+  final String imgurl;
+  final String caption;
+  const Category({
+    super.key,
+    required this.color,
+    required this.imgurl,
+    required this.caption,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> Barang()));
+      },
+      child: Container(
+        width: 140,
+        height: 180,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(50),
+            bottomLeft: Radius.circular(50),
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              imgurl,
+              width: 100,
+              height: 100,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 10, top: 5),
+              child: Text(
+                caption,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CategoryLeft extends StatelessWidget {
+  final Color color;
+  final String imgurl;
+  final String caption;
+  const CategoryLeft({
+    super.key,
+    required this.color,
+    required this.imgurl,
+    required this.caption,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> Peminjam()));
+      },
+      child: Container(
+        width: 140,
+        height: 180,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(50),
+            bottomRight: Radius.circular(50),
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              imgurl,
+              width: 100,
+              height: 100,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 10, top: 5),
+              child: Text(
+                caption,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
