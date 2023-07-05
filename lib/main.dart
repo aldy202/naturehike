@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:naturehike/view/barang.dart';
 import 'package:naturehike/view/home.dart';
 import 'package:naturehike/view/login.dart';
 import 'package:naturehike/view/register.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'NatureHike',
       debugShowCheckedModeBanner: false,
-      home: Login(),
+      home: Barang(),
     );
   }
 }

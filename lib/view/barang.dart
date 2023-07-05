@@ -26,7 +26,18 @@ class Barang extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(20.0),
           child: Column(
-            children: [],
+            children: [
+              Card(
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.grey[200],
+                    backgroundImage: AssetImage("assets/images/tools.png"),
+                  ),
+                  title: Text("Aldy Bot"),
+                  subtitle: Text("Progammer"),
+                ),
+              )
+            ],
           ),
         ),
       ),
