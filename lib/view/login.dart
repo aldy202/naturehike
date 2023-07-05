@@ -119,7 +119,7 @@ class Login extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Home()),
+                                          builder: (context) => Home(loggedInUser: loggedInUser)),
                                     );
                                     print(loggedInUser.name);
                                     // Navigate to the next screen or perform any desired action

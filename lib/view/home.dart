@@ -4,7 +4,13 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:naturehike/view/barang.dart';
 import 'package:naturehike/view/peminjam.dart';
 
+import '../model/user_model.dart';
+
 class Home extends StatelessWidget {
+  final UserModel loggedInUser;
+
+  Home({required this.loggedInUser});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +37,7 @@ class Home extends StatelessWidget {
                                 fontWeight: FontWeight.w600),
                           ),
                           TextSpan(
-                            text: "Aldy",
+                            text: loggedInUser.name,
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
@@ -55,9 +61,25 @@ class Home extends StatelessWidget {
                 "Welcome Admin",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
-              Text(
-                "Cabang NatureHike",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: "Cabang Toko Daerah ",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    TextSpan(
+                      text: loggedInUser.cabang,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600),
+                    )
+                  ],
+                ),
               ),
               SizedBox(
                 height: 10,
@@ -131,8 +153,9 @@ class Category extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> Barang()));
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Barang()));
       },
       child: Container(
         width: 140,
@@ -183,8 +206,9 @@ class CategoryLeft extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> Peminjam()));
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Peminjam()));
       },
       child: Container(
         width: 140,
