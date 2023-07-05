@@ -11,6 +11,22 @@ class BarangFormView extends StatelessWidget {
       appBar: AppBar(
         title: Text("Form Input"),
       ),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              Image.file(
+                
+              ),
+              TextField(
+                id: "product";
+              )
+
+            ],
+            ),
+        ),
+      ),
     );
   }
 }
