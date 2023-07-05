@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:naturehike/view/barang_Form_view.dart';
 
 class Barang extends StatelessWidget {
   const Barang({super.key});
@@ -10,6 +11,16 @@ class Barang extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("List barang"),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BarangFormView(),
+              ));
+        },
+        child: Icon(Icons.add),
       ),
       body: SingleChildScrollView(
         child: Container(
