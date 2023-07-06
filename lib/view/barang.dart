@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -20,6 +21,7 @@ class Barang extends StatefulWidget {
 class _BarangState extends State<Barang> {
   var cc = BarangController();
   final authController = AuthController();
+  final user = FirebaseAuth.instance.currentUser!;
 
   @override
   void initState() {
@@ -57,86 +59,87 @@ class _BarangState extends State<Barang> {
               return ListView.builder(
                 itemCount: data.length,
                 itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DetailBarang(
+                  if (data[index]['uid'] == user.uid) {
+                    return Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailBarang(
                                   // Pass the required data to the detail screen
                                   // id: data[index]['id'],
-                                ),
+                                  ),
+                            ),
+                          );
+                        },
+                        child: Card(
+                          elevation: 8,
+                          child: ListTile(
+                            leading: Container(
+                              width: 100,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                color: Colors.green,
+                                image: data[index]['imageUrl'] != null
+                                    ? DecorationImage(
+                                        image: NetworkImage(
+                                            data[index]['imageUrl']),
+                                        fit: BoxFit.cover,
+                                      )
+                                    : null,
                               ),
-                            );
-                          },
-                    child: Card(
-                      elevation: 8,
-                      child: ListTile(
-                        leading: Container(
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: Colors.green,
-                            image: data[index]['imageUrl'] != null
-                                ? DecorationImage(
-                                    image:
-                                        NetworkImage(data[index]['imageUrl']),
-                                    fit: BoxFit.cover,
-                                  )
-                                : null,
-                          ),
-                          child: data[index]['imageUrl'] == null
-                              ? Center(
-                                  child: Text(
-                                    'No Image',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                )
-                              : null,
-                        ),
-                        title: Text(data[index]['name']),
-                        subtitle: Text(data[index]['jumlah']),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                              icon: Icon(Icons.edit),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => UpdateBarang(
-                                        id: data[index]['id'],
-                                        bfnama: data[index]['name'],
-                                        bfjumlah: data[index]['jumlah'],
-                                        bfdetail: data[index]['detail'],
-    
+                              child: data[index]['imageUrl'] == null
+                                  ? Center(
+                                      child: Text(
+                                        'No Image',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    )
+                                  : null,
+                            ),
+                            title: Text(data[index]['name']),
+                            subtitle: Text(data[index]['jumlah']),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: Icon(Icons.edit),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => UpdateBarang(
+                                          id: data[index]['id'],
+                                          bfnama: data[index]['name'],
+                                          bfjumlah: data[index]['jumlah'],
+                                          bfdetail: data[index]['detail'],
                                         ),
-                                  ),
-                                );
-                              },
+                                      ),
+                                    );
+                                  },
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () {
+                                    cc.deleteContact(
+                                      data[index]['id'].toString(),
+                                    );
+                                    setState(() {
+                                      cc.getBarang();
+                                    });
+                                  },
+                                ),
+                              ],
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () {
-                                cc.deleteContact(
-                                  data[index]['id'].toString(),
-                                );
-                                setState(() {
-                                  cc.getBarang();
-                                });
-                              },
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                    )
-                  );
+                    );
+                  }
                 },
               );
             },

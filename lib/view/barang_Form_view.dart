@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -22,6 +23,7 @@ class _BarangFormViewState extends State<BarangFormView> {
   String? jumlah;
   String? detail;
   File? imageFile;
+  final user = FirebaseAuth.instance.currentUser!;
 
   Future getImage() async {
     final picker = ImagePicker();
@@ -101,7 +103,7 @@ class _BarangFormViewState extends State<BarangFormView> {
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         BarangModel bm = BarangModel(
-                            name: name!, jumlah: jumlah!, detail: detail!);
+                            name: name!, jumlah: jumlah!, detail: detail!,uid: user.uid);
                         barangController.addBarang(bm, imageFile!);
     
                         Navigator.push(

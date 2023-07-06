@@ -6,29 +6,31 @@ class BarangModel {
   String? jumlah;
   String? detail;
   String? imageUrl;
-
+  String? uid;
   BarangModel({
     this.id,
-    required this.name,
-    required this.jumlah,
-    required this.detail,
+    this.name,
+    this.jumlah,
+    this.detail,
     this.imageUrl,
+    this.uid,
   });
 
-  BarangModel copyWith({
+  BarangModel copywith({
     String? id,
     String? name,
-    String? phone,
-    String? email,
-    String? address,
+    String? jumlah,
+    String? detail,
     String? imageUrl,
+    String? uid,
   }) {
     return BarangModel(
       id: id ?? this.id,
       name: name ?? this.name,
-      jumlah: phone ?? this.jumlah,
-      detail: email ?? this.detail,
+      jumlah: jumlah ?? this.jumlah,
+      detail: detail ?? this.detail,
       imageUrl: imageUrl ?? this.imageUrl,
+      uid: uid ?? this.uid,
     );
   }
 
@@ -39,16 +41,18 @@ class BarangModel {
       'jumlah': jumlah,
       'detail': detail,
       'imageUrl': imageUrl,
+      'uid': uid,
     };
   }
 
   factory BarangModel.fromMap(Map<String, dynamic> map) {
     return BarangModel(
       id: map['id'],
-      name: map['name'] ?? '',
-      jumlah: map['jumlah'] ?? '',
-      detail: map['detail'] ?? '',
+      name: map['name'],
+      jumlah: map['jumlah'],
+      detail: map['detail'],
       imageUrl: map['imageUrl'],
+      uid: map['uid'],
     );
   }
 

@@ -38,6 +38,7 @@ class BarangController {
           jumlah: brmodel.jumlah,
           detail: brmodel.detail,
           imageUrl: imageUrl,
+          uid: brmodel.uid,
         );
 
         await docRef.update(contactModel.toMap());
@@ -50,6 +51,7 @@ class BarangController {
         name: brmodel.name,
         jumlah: brmodel.jumlah,
         detail: brmodel.detail,
+        uid: brmodel.uid,
       );
 
       await docRef.update(barangModel.toMap());
@@ -73,6 +75,7 @@ class BarangController {
       jumlah: barangModel.jumlah,
       detail: barangModel.detail,
       imageUrl: barangModel.imageUrl,
+      uid: barangModel.uid,
     );
 
     final DocumentSnapshot documentSnapshot =
@@ -95,7 +98,7 @@ class BarangController {
         final String imageUrl = await taskSnapshot.ref.getDownloadURL();
 
         final updatedBarangModelWithImage =
-            updatedBarangModel.copyWith(imageUrl: imageUrl);
+            updatedBarangModel.copywith(imageUrl: imageUrl);
         await barangCollection
             .doc(docId)
             .update(updatedBarangModelWithImage.toMap());

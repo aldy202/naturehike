@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:naturehike/model/user_model.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthController {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection('user');
+
 
   bool get success => false;
 
@@ -69,4 +71,5 @@ class AuthController {
   Future<void> signOut() async {
     await auth.signOut();
   }
+
 }
