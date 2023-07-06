@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:naturehike/model/barang_model.dart';
 
 class BarangController {
@@ -66,45 +67,47 @@ class BarangController {
     BarangModel barangModel,
     File imageFile,
   ) async {
-    final BarangModel brmModel = BarangModel(
+    final BarangModel updatedBarangModel = BarangModel(
+      id: docId,
       name: barangModel.name,
       jumlah: barangModel.jumlah,
       detail: barangModel.detail,
-      id: docId,
       imageUrl: barangModel.imageUrl,
     );
 
     final DocumentSnapshot documentSnapshot =
         await barangCollection.doc(docId).get();
     if (!documentSnapshot.exists) {
-      print('Contact with ID $docId does not exist');
+      print('Barang with ID $docId does not exist');
       return;
     }
 
     if (imageFile != null) {
       final String imageName = DateTime.now().millisecondsSinceEpoch.toString();
-      final firebase_storage.Reference storageReference =
-          firebase_storage.FirebaseStorage.instance.ref().child(imageName);
+      final Reference storageReference =
+          FirebaseStorage.instance.ref().child(imageName);
 
-      final firebase_storage.UploadTask uploadTask =
-          storageReference.putFile(imageFile);
-      final firebase_storage.TaskSnapshot taskSnapshot =
+      final UploadTask uploadTask = storageReference.putFile(imageFile);
+      final TaskSnapshot taskSnapshot =
           await uploadTask.whenComplete(() => null);
 
-      if (taskSnapshot.state == firebase_storage.TaskState.success) {
+      if (taskSnapshot.state == TaskState.success) {
         final String imageUrl = await taskSnapshot.ref.getDownloadURL();
 
-        final updatedContactModel = brmModel.copyWith(imageUrl: imageUrl);
-        await barangCollection.doc(docId).update(updatedContactModel.toMap());
+        final updatedBarangModelWithImage =
+            updatedBarangModel.copyWith(imageUrl: imageUrl);
+        await barangCollection
+            .doc(docId)
+            .update(updatedBarangModelWithImage.toMap());
       } else {
         print('Failed to upload image');
       }
     } else {
-      await barangCollection.doc(docId).update(brmModel.toMap());
+      await barangCollection.doc(docId).update(updatedBarangModel.toMap());
     }
 
     await getBarang();
-    print('Updated contact with ID: $docId');
+    print('Updated barang with ID: $docId');
   }
 
   Future deleteContact(String id) async {
