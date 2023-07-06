@@ -9,7 +9,7 @@ import 'package:naturehike/model/barang_model.dart';
 import 'package:naturehike/view/barang.dart';
 
 class BarangFormView extends StatefulWidget {
-  const BarangFormView({super.key});
+  const BarangFormView({Key? key}) : super(key: key);
 
   @override
   State<BarangFormView> createState() => _BarangFormViewState();
@@ -36,59 +36,86 @@ class _BarangFormViewState extends State<BarangFormView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Form Input"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Form(
-          key: formKey,
-          child: Column(
-            children: [
-              if (imageFile != null) Image.file(imageFile!),
-              ElevatedButton(
-                onPressed: () {
-                  getImage();
-                },
-                child: Text('Select Image'),
+    return Container(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  GestureDetector(
+                    child: Container(
+                      height: 200,
+                      width: 200,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Colors.black,
+                              width: 1.0,
+                              style: BorderStyle.solid)),
+                      child: imageFile != null
+                          ? Image.file(imageFile!)
+                          : Placeholder(),
+                    ),
+                  ),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(Colors.blue)
+                    ),
+                    onPressed: () {
+                      getImage();
+                    },
+                    child: Text('Select Image'),
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(hintText: 'Nama Alat'),
+                    onChanged: (value) {
+                      name = value;
+                    },
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(hintText: 'Jumlah Alat'),
+                    onChanged: (value) {
+                      jumlah = value;
+                    },
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(hintText: 'Detail Alat'),
+                    onChanged: (value) {
+                      detail = value;
+                    },
+                  ),
+                  ElevatedButton(
+                    child: Text('Add Barang'),
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        BarangModel bm = BarangModel(
+                            name: name!, jumlah: jumlah!, detail: detail!);
+                        barangController.addBarang(bm, imageFile!);
+    
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Barang(),
+                          ),
+                        );
+                      }
+                    },
+                  )
+                ],
               ),
-              TextFormField(
-                decoration: const InputDecoration(hintText: 'Name'),
-                onChanged: (value) {
-                  name = value;
-                },
-              ),
-              TextFormField(
-                decoration: const InputDecoration(hintText: 'Phone'),
-                onChanged: (value) {
-                  jumlah = value;
-                },
-              ),
-              TextFormField(
-                decoration: const InputDecoration(hintText: 'Email'),
-                onChanged: (value) {
-                  detail = value;
-                },
-              ),
-              ElevatedButton(
-                child: Text('Add Barang'),
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    BarangModel bm = BarangModel(
-                        name: name!, jumlah: jumlah!, detail: detail!);
-                    barangController.addBarang(bm, imageFile!);
-
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Barang(),
-                      ),
-                    );
-                  }
-                },
-              )
-            ],
+            ),
           ),
         ),
       ),

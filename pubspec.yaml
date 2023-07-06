@@ -39,7 +39,7 @@ dependencies:
   cloud_firestore: ^4.8.2
   firebase_auth: ^4.6.3
   firebase_storage: ^11.2.4
-  image_picker: ^1.0.0
+  image_picker: ^0.8.4+3
   flutter_keyboard_visibility: ^5.4.1
 
 dev_dependencies:

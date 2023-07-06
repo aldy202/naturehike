@@ -5,10 +5,13 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:naturehike/controller/auth_controller.dart';
 import 'package:naturehike/controller/barang_controller.dart';
 import 'package:naturehike/view/barang_Form_view.dart';
+import 'package:naturehike/view/detailbarang.dart';
 import 'package:naturehike/view/updatebarang.dart';
 
+import '../controller/barang_controller.dart';
+
 class Barang extends StatefulWidget {
-  const Barang({super.key});
+  const Barang({Key? key}) : super(key: key);
 
   @override
   State<Barang> createState() => _BarangState();
@@ -23,6 +26,7 @@ class _BarangState extends State<Barang> {
     cc.getBarang();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,53 +60,82 @@ class _BarangState extends State<Barang> {
                   return Padding(
                     padding: EdgeInsets.all(8.0),
                     child: InkWell(
-                      onLongPress: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => UpdateBarang(
-                                // id: data[index]['id'],
-
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailBarang(
+                                  // Pass the required data to the detail screen
+                                  // id: data[index]['id'],
                                 ),
-                          ),
-                        );
-                      },
-                      child: Card(
-                        elevation: 8,
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: Colors.blue,
-                            child: data[index]['imageUrl'] != null
-                                ? Image.network(
-                                    data[index]['imageUrl'],
+                              ),
+                            );
+                          },
+                    child: Card(
+                      elevation: 8,
+                      child: ListTile(
+                        leading: Container(
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            image: data[index]['imageUrl'] != null
+                                ? DecorationImage(
+                                    image:
+                                        NetworkImage(data[index]['imageUrl']),
                                     fit: BoxFit.cover,
                                   )
-                                : Text(
-                                    data[index]['name']
-                                        .substring(0, 1)
-                                        .toUpperCase(),
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                : null,
+                          ),
+                          child: data[index]['imageUrl'] == null
+                              ? Center(
+                                  child: Text(
+                                    'No Image',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
                                   ),
-                          ),
-                          title: Text(data[index]['name']),
-                          subtitle: Text(data[index]['jumlah']),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () {
-                              cc.deleteContact(
-                                data[index]['id'].toString(),
-                              );
-                              setState(() {
-                                cc.getBarang();
-                              });
-                            },
-                          ),
+                                )
+                              : null,
+                        ),
+                        title: Text(data[index]['name']),
+                        subtitle: Text(data[index]['jumlah']),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.edit),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => UpdateBarang(
+                                        id: data[index]['id'],
+                                        bfnama: data[index]['name'],
+                                        bfjumlah: data[index]['jumlah'],
+                                        bfdetail: data[index]['detail'],
+    
+                                        ),
+                                  ),
+                                );
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () {
+                                cc.deleteContact(
+                                  data[index]['id'].toString(),
+                                );
+                                setState(() {
+                                  cc.getBarang();
+                                });
+                              },
+                            ),
+                          ],
                         ),
                       ),
                     ),
+                    )
                   );
                 },
               );
