@@ -20,7 +20,7 @@ class UpdateBarang extends StatefulWidget {
 
   final String? id;
   final String? bfnama;
-  final String? bfjumlah;
+  final int? bfjumlah;
   final String? bfdetail;
   final File? bfgambar;
 
@@ -33,7 +33,7 @@ class _UpdateBarangState extends State<UpdateBarang> {
   final formkey = GlobalKey<FormState>();
 
   String? newname;
-  String? newjumlah;
+  int? newjumlah;
   String? newdetail;
   File? newgambar;
 
@@ -91,9 +91,9 @@ class _UpdateBarangState extends State<UpdateBarang> {
                 TextFormField(
                   decoration: InputDecoration(hintText: 'Jumlah'),
                   onChanged: (value) {
-                    newjumlah = value;
+                    newjumlah = int.tryParse(value);
                   },
-                  initialValue: widget.bfjumlah,
+                  initialValue: widget.bfjumlah.toString(),
                 ),
                 TextFormField(
                   decoration: InputDecoration(hintText: 'Detail'),

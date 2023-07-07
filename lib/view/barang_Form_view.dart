@@ -20,7 +20,7 @@ class _BarangFormViewState extends State<BarangFormView> {
   var barangController = BarangController();
   final formKey = GlobalKey<FormState>();
   String? name;
-  String? jumlah;
+  int? jumlah;
   String? detail;
   File? imageFile;
   final user = FirebaseAuth.instance.currentUser!;
@@ -89,7 +89,7 @@ class _BarangFormViewState extends State<BarangFormView> {
                   TextFormField(
                     decoration: const InputDecoration(hintText: 'Jumlah Alat'),
                     onChanged: (value) {
-                      jumlah = value;
+                      jumlah = int.tryParse(value);
                     },
                   ),
                   TextFormField(

@@ -3,7 +3,7 @@ import 'dart:convert';
 class BarangModel {
   String? id;
   String? name;
-  String? jumlah;
+  int? jumlah;
   String? detail;
   String? imageUrl;
   String? uid;
@@ -19,7 +19,7 @@ class BarangModel {
   BarangModel copywith({
     String? id,
     String? name,
-    String? jumlah,
+    int? jumlah,
     String? detail,
     String? imageUrl,
     String? uid,
