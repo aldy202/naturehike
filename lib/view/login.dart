@@ -6,16 +6,23 @@ import 'package:naturehike/model/user_model.dart';
 import 'package:naturehike/view/home.dart';
 import 'package:naturehike/view/register.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   Login({Key? key}) : super(key: key);
 
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
   final formKey = GlobalKey<FormState>();
 
   final authController = AuthController();
 
-  String? email;
+  final TextEditingController _passwordController = TextEditingController();
 
+  String? email;
   String? password;
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -77,10 +84,22 @@ class Login extends StatelessWidget {
                   decoration: InputDecoration(
                     hintText: "Password",
                     prefixIcon: Icon(Icons.lock),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+                      },
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
+                  controller: _passwordController,
+                  obscureText: _obscureText,
                   onChanged: (value) {
                     // Do something with the value
                     password = value;
@@ -119,7 +138,8 @@ class Login extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Home(loggedInUser: loggedInUser)),
+                                          builder: (context) =>
+                                              Home(loggedInUser: loggedInUser)),
                                     );
                                     print(loggedInUser.name);
                                     // Navigate to the next screen or perform any desired action
@@ -153,7 +173,7 @@ class Login extends StatelessWidget {
                             );
                           },
                         );
-                      }
+                      }// Perform your login logic here
                     }
                   },
                 ),
