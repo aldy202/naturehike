@@ -54,54 +54,118 @@ class _DetailPeminjamState extends State<DetailPeminjam> {
         child: Form(
           key: formkey,
           child: Column(
+            crossAxisAlignment:
+                CrossAxisAlignment.stretch, // Mengatur rata kiri
             children: [
-              Text(
-                'Nama Peminjam: ${widget.bfnamapeminjam ?? ''}',
-                style: const TextStyle(fontWeight: FontWeight.bold),
+              Image.asset(
+                'assets/images/backpack.png',
+                width: 150,
+                height: 150,
               ),
-              const SizedBox(height: 10),
-              Text(
-                'Alamat: ${widget.bfalamat ?? ''}',
-                style: const TextStyle(fontWeight: FontWeight.bold),
+              SizedBox(
+                height: 20,
               ),
-              const SizedBox(height: 10),
-              Text(
-                'Barang yang Dipinjam: ${widget.bfselectbarang ?? ''}',
-                style: const TextStyle(fontWeight: FontWeight.bold),
+              Container(
+                color: Color.fromARGB(112, 76, 175, 79),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Text(
+                    'Nama Peminjam: ${widget.bfnamapeminjam ?? ''}',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
               ),
-              const SizedBox(height: 10),
-              Text(
-                'Jumlah: ${widget.bfjumlah ?? 0}',
-                style: const TextStyle(fontWeight: FontWeight.bold),
+              Container(
+                height: 4,
+                color: Color.fromARGB(255, 150, 150, 150),
               ),
-              const SizedBox(height: 10),
-              DropdownButtonFormField<String>(
-                decoration: const InputDecoration(hintText: 'Status Barang'),
-                value: newstatus,
-                items: statusOptions.map((status) {
-                  return DropdownMenuItem<String>(
-                    value: status,
-                    child: Text(status),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    newstatus = value!;
-                  });
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Pilih status barang';
-                  }
-                  return null;
-                },
+              SizedBox(
+                height: 10,
               ),
-              ElevatedButton(
-                onPressed: () {
-                  // Panggil fungsi untuk menyimpan perubahan status barang
-                  saveStatus();
-                },
-                child: const Text('Simpan'),
+              Container(
+                color: Color.fromARGB(112, 76, 175, 79),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Text(
+                    'Alamat: ${widget.bfalamat ?? ''}',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              Container(
+                height: 4,
+                color: Color.fromARGB(255, 150, 150, 150),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                color: Color.fromARGB(112, 76, 175, 79),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Text(
+                    'Barang yang Dipinjam: ${widget.bfselectbarang ?? ''}',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              Container(
+                height: 4,
+                color: Color.fromARGB(255, 150, 150, 150),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                color: Color.fromARGB(112, 76, 175, 79),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Text(
+                    'Jumlah: ${widget.bfjumlah ?? 0}',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              Container(
+                height: 4,
+                color: Color.fromARGB(255, 150, 150, 150),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(hintText: 'Status Barang'),
+                  value: newstatus,
+                  items: statusOptions.map((status) {
+                    return DropdownMenuItem<String>(
+                      value: status,
+                      child: Text(status),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      newstatus = value!;
+                    });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Pilih status barang';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft, // Mengatur rata kiri
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Panggil fungsi untuk menyimpan perubahan status barang
+                    saveStatus();
+                  },
+                  child: const Text('Simpan'),
+                ),
               ),
             ],
           ),
@@ -110,7 +174,7 @@ class _DetailPeminjamState extends State<DetailPeminjam> {
     );
   }
 
-    void saveStatus() {
+  void saveStatus() {
     if (formkey.currentState!.validate()) {
       // Lakukan penyimpanan perubahan status barang ke database
       peminjamController.updateStatus(widget.id, newstatus);
@@ -129,12 +193,3 @@ class _DetailPeminjamState extends State<DetailPeminjam> {
     }
   }
 }
-
-
-
-
-
-
-
-
-
