@@ -35,20 +35,21 @@ class PeminjamController {
 
   Future<List<DocumentSnapshot>> getPeminjam() async {
     final peminjam = await peminjamCollection.get();
-    streamController.sink.add(peminjam.docs);
-
-    // Menutup sink setelah mengirim data
-    streamController.close();
+    streamController.add(peminjam.docs);
 
     return peminjam.docs;
   }
 
-  Future<void> updatePeminjaman(PeminjamanBarangModel peminjaman) async {
+  // Fungsi untuk memperbarui status peminjaman berdasarkan ID
+  Future<void> updateStatus(String? id, String newStatus) async {
     try {
-      await peminjamCollection.doc(peminjaman.id).update(peminjaman.toMap());
-      print('Data peminjaman berhasil diperbarui: ${peminjaman.toJson()}');
+      await peminjamCollection.doc(id).update({
+        'status': newStatus,
+      });
+      print(
+          'Status peminjaman berhasil diperbarui: ID $id, Status: $newStatus');
     } catch (e) {
-      print('Error saat memperbarui data peminjaman: $e');
+      print('Error saat memperbarui status peminjaman: $e');
     }
   }
 

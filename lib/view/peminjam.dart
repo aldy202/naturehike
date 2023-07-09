@@ -66,8 +66,12 @@ class _PeminjamState extends State<Peminjam> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => DetailPeminjam(
-                                    // Pass the required data to the detail screen
-                                    // id: data[index]['id'],
+                                    id: data[index]['id'],
+                                    bfnamapeminjam: data[index]['namapeminjam'],
+                                    bfalamat: data[index]['alamat'],
+                                    bfjumlah: data[index]['jumlah'],
+                                    bfselectbarang: data[index]['barangpinjam'],
+                                    bfstatus: data[index]['status'],
                                     ),
                               ),
                             );
@@ -104,7 +108,7 @@ class _PeminjamState extends State<Peminjam> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushReplacement(
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const PeminjamanView(),

@@ -19,7 +19,6 @@ class PeminjamanView extends StatefulWidget {
 
 class _PeminjamanViewState extends State<PeminjamanView> {
   var peminjamController = PeminjamController();
-  var barangController = BarangController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final user = FirebaseAuth.instance.currentUser!;
 
@@ -27,7 +26,7 @@ class _PeminjamanViewState extends State<PeminjamanView> {
   String? alamat;
   String? selectedBarang;
   int? jumlah;
-  String? status = 'sedang dipinjam';
+  String? status = 'Menunggu..';
 
   @override
   Widget build(BuildContext context) {
@@ -148,13 +147,36 @@ class _PeminjamanViewState extends State<PeminjamanView> {
                   },
                 ),
                 SizedBox(height: 16.0),
-                TextFormField(
-                  initialValue: status,
-                  
-                  enabled: false,
+                DropdownButtonFormField<String>(
+                  value: status,
+                  items: [
+                    DropdownMenuItem(
+                      value: 'Menunggu..',
+                      child: Text('Menunggu..'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Barang Sudah Dikembalikan',
+                      child: Text('Barang Sudah Dikembalikan'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Barang Hilang',
+                      child: Text('Barang Hilang'),
+                    ),
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      status = value!;
+                    });
+                  },
                   decoration: InputDecoration(
                     labelText: 'Status',
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Status harus dipilih';
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
@@ -171,11 +193,11 @@ class _PeminjamanViewState extends State<PeminjamanView> {
                       );
                       peminjamController.addPeminjaman(peminjaman);
                       Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Peminjam(),
-                          ),
-                        );
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Peminjam(),
+                        ),
+                      );
                     }
                   },
                   child: Text('Submit'),
@@ -187,6 +209,4 @@ class _PeminjamanViewState extends State<PeminjamanView> {
       ),
     );
   }
-
-  
 }
