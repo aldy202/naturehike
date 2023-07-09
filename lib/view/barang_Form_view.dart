@@ -106,7 +106,7 @@ class _BarangFormViewState extends State<BarangFormView> {
                             name: name!, jumlah: jumlah!, detail: detail!,uid: user.uid);
                         barangController.addBarang(bm, imageFile!);
     
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => Barang(),

@@ -15,9 +15,9 @@ class PeminjamController {
   Future<void> addPeminjaman(PeminjamanBarangModel peminjaman) async {
     final pm = peminjaman.toMap();
 
-    final DocumentReference docref = await peminjamCollection.add(pm);
+    final DocumentReference docRef = await peminjamCollection.add(pm);
 
-    final String docId = docref.id;
+    final String docId = docRef.id;
 
     final PeminjamanBarangModel pbm = PeminjamanBarangModel(
       id: docId,
@@ -28,51 +28,30 @@ class PeminjamController {
       status: peminjaman.status,
       uid: peminjaman.uid,
     );
-    await docref.update(pbm.toMap());
-    await getPeminjamanList();
+
+    await peminjamCollection.doc(docId).update(pbm.toMap());
+    await getPeminjam();
   }
 
-  Future<List<PeminjamanBarangModel>> getPeminjamanList() async {
-    try {
-      // Mengambil seluruh data peminjaman dari koleksi "peminjaman" di Firebase Firestore
-      final QuerySnapshot snapshot = await peminjamCollection.get();
-
-      // Mengubah hasil snapshot menjadi daftar objek PeminjamanBarangModel
-      final List<PeminjamanBarangModel> peminjamanList = snapshot.docs
-          .map((doc) =>
-              PeminjamanBarangModel.fromMap(doc.data() as Map<String, dynamic>))
-          .toList();
-
-      return peminjamanList;
-    } catch (e) {
-      // Menampilkan pesan error jika terjadi kesalahan
-      print('Error saat mengambil data peminjaman: $e');
-      return [];
-    }
+  Future<void> getPeminjam() async {
+    final peminjam = await peminjamCollection.get();
+    streamController.add(peminjam.docs);
   }
 
   Future<void> updatePeminjaman(PeminjamanBarangModel peminjaman) async {
     try {
-      // Mengupdate data peminjaman dengan ID yang sesuai di koleksi "peminjaman" di Firebase Firestore
       await peminjamCollection.doc(peminjaman.id).update(peminjaman.toMap());
-
-      // Menampilkan pesan sukses
       print('Data peminjaman berhasil diperbarui: ${peminjaman.toJson()}');
     } catch (e) {
-      // Menampilkan pesan error jika terjadi kesalahan
       print('Error saat memperbarui data peminjaman: $e');
     }
   }
 
   Future<void> deletePeminjaman(String peminjamanId) async {
     try {
-      // Menghapus data peminjaman dengan ID yang sesuai dari koleksi "peminjaman" di Firebase Firestore
       await peminjamCollection.doc(peminjamanId).delete();
-
-      // Menampilkan pesan sukses
       print('Data peminjaman berhasil dihapus: $peminjamanId');
     } catch (e) {
-      // Menampilkan pesan error jika terjadi kesalahan
       print('Error saat menghapus data peminjaman: $e');
     }
   }

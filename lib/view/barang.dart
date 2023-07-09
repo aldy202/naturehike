@@ -117,6 +117,7 @@ class _BarangState extends State<Barang> {
                                           bfnama: data[index]['name'],
                                           bfjumlah: data[index]['jumlah'],
                                           bfdetail: data[index]['detail'],
+                                          bfgambar: data[index]['imageUrl'],
                                         ),
                                       ),
                                     );
@@ -148,7 +149,7 @@ class _BarangState extends State<Barang> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) => const BarangFormView(),

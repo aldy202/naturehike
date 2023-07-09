@@ -1,28 +1,32 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
 import 'package:naturehike/controller/barang_controller.dart';
 
 import '../model/barang_model.dart';
 
 class UpdateBarang extends StatefulWidget {
   const UpdateBarang({
-    super.key,
+    Key? key,
     this.id,
     this.bfnama,
     this.bfjumlah,
     this.bfdetail,
     this.bfgambar,
-  });
+
+  }) : super(key: key);
 
   final String? id;
   final String? bfnama;
   final int? bfjumlah;
   final String? bfdetail;
-  final File? bfgambar;
+  final String? bfgambar;
+
 
   @override
   State<UpdateBarang> createState() => _UpdateBarangState();
@@ -31,11 +35,13 @@ class UpdateBarang extends StatefulWidget {
 class _UpdateBarangState extends State<UpdateBarang> {
   var barangController = BarangController();
   final formkey = GlobalKey<FormState>();
+  final user = FirebaseAuth.instance.currentUser!;
 
   String? newname;
   int? newjumlah;
   String? newdetail;
   File? newgambar;
+  String? nwgambar;
 
   Future getImage() async {
     final picker = ImagePicker();
@@ -46,6 +52,15 @@ class _UpdateBarangState extends State<UpdateBarang> {
         newgambar = File(pickedFile.path);
       });
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    newname = widget.bfnama;
+    newjumlah = widget.bfjumlah;
+    newdetail = widget.bfdetail;
+    nwgambar = widget.bfgambar; // Inisialisasi newgambar dengan widget.bfgambar
   }
 
   @override
@@ -68,13 +83,16 @@ class _UpdateBarangState extends State<UpdateBarang> {
                     width: 200,
                     decoration: BoxDecoration(
                       border: Border.all(
-                          color: Colors.black,
-                          width: 1.0,
-                          style: BorderStyle.solid),
+                        color: Colors.black,
+                        width: 1.0,
+                        style: BorderStyle.solid,
+                      ),
                     ),
                     child: newgambar != null
                         ? Image.file(newgambar!)
-                        : const Placeholder(),
+                        : widget.bfgambar != null
+                            ? Image.network(widget.bfgambar!)
+                            : const Placeholder(),
                   ),
                 ),
                 ElevatedButton(
@@ -107,16 +125,18 @@ class _UpdateBarangState extends State<UpdateBarang> {
                   onPressed: () async {
                     if (formkey.currentState!.validate()) {
                       BarangModel barangModel = BarangModel(
-                        name: newname!,
-                        jumlah: newjumlah!,
-                        detail: newdetail!,
-                        imageUrl: widget.bfgambar?.path,
+                        name: newname,
+                        uid: user.uid,
+                        jumlah: newjumlah,
+                        detail: newdetail,
+                        imageUrl: newgambar != null ? newgambar!.path : widget.bfgambar,
                       );
                       await barangController.updateBarang(
-                          widget.id!, barangModel, newgambar!);
+                        widget.id!,
+                        barangModel,
+                      );
 
-                      Navigator.pop(
-                          context); // Kembali ke halaman sebelumnya setelah update berhasil// Menggunakan path gambar sebelumnya
+                      Navigator.pop(context);
                     }
                   },
                 ),
