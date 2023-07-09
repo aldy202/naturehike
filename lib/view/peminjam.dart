@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:naturehike/controller/auth_controller.dart';
+import 'package:naturehike/controller/barang_controller.dart';
 import 'package:naturehike/controller/peminjam_controller.dart';
 import 'package:naturehike/view/detailpeminjaman.dart';
 import 'package:naturehike/view/peminjamanview.dart';
@@ -17,6 +18,7 @@ class Peminjam extends StatefulWidget {
 
 class _PeminjamState extends State<Peminjam> {
   var ct = PeminjamController();
+  var cc = BarangController();
   final authController = AuthController();
   final user = FirebaseAuth.instance.currentUser!;
 
@@ -72,37 +74,26 @@ class _PeminjamState extends State<Peminjam> {
                           },
                           child: Card(
                             child: ListTile(
-                              leading: Container(
-                                width: 100,
-                                height: 100,
-                                decoration: BoxDecoration(
-                                  color: Colors.green,
-                                ),
-                                child: Text(
-                                  'No Image',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
                               title: Text(data[index]['namapeminjam']),
                               subtitle: Text(data[index]['status']),
-                              trailing: Row(
-                                children: [
-                                  IconButton(
-                                    onPressed: () {
-                                      ct.deletePeminjaman(
-                                        data[index]['id'].toString(),
-                                      );
-                                    },
-                                    icon: const Icon(Icons.delete),
-                                  )
-                                ],
+                              trailing: IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () {
+                                  ct.deletePeminjaman(
+                                    data[index]['id'].toString(),
+                                  );
+                                  setState(() {
+                                    ct.getPeminjam();
+                                  });
+                                },
+                                
                               ),
                             ),
                           ),
                         ),
                       );
+                    } else {
+                      return SizedBox();
                     }
                   },
                 );

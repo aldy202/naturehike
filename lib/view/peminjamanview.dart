@@ -170,7 +170,7 @@ class _PeminjamanViewState extends State<PeminjamanView> {
                         jumlah: jumlah!,
                       );
                       peminjamController.addPeminjaman(peminjaman);
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => Peminjam(),
