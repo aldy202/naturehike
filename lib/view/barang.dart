@@ -140,6 +140,8 @@ class _BarangState extends State<Barang> {
                         ),
                       ),
                     );
+                  } else {
+                    return SizedBox();
                   }
                 },
               );
