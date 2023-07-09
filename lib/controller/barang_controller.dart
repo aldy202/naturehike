@@ -117,4 +117,21 @@ class BarangController {
     final contact = await barangCollection.doc(id).delete();
     return contact;
   }
+  Future<List<BarangModel>> getBarangList() async {
+    try {
+      // Mengambil seluruh data peminjam dari koleksi "peminjam" di Firebase Firestore
+      final QuerySnapshot snapshot = await barangCollection.get();
+
+      // Mengubah hasil snapshot menjadi daftar objek PeminjamModel
+      final List<BarangModel> peminjamList = snapshot.docs
+          .map((doc) => BarangModel.fromMap(doc.data() as Map<String, dynamic>))
+          .toList();
+
+      return peminjamList;
+    } catch (e) {
+      // Menampilkan pesan error jika terjadi kesalahan
+      print('Error saat mengambil data peminjam: $e');
+      return [];
+    }
+  }
 }

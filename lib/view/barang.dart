@@ -102,7 +102,7 @@ class _BarangState extends State<Barang> {
                                   : null,
                             ),
                             title: Text(data[index]['name']),
-                            subtitle: Text(data[index]['jumlah']),
+                            subtitle: Text(data[index]['jumlah'].toString()),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [

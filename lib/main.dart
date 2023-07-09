@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:naturehike/view/barang.dart';
 import 'package:naturehike/view/home.dart';
 import 'package:naturehike/view/login.dart';
+import 'package:naturehike/view/peminjam.dart';
+import 'package:naturehike/view/peminjamanview.dart';
+
 import 'package:naturehike/view/register.dart';
 
 Future main() async {
@@ -20,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'NatureHike',
       debugShowCheckedModeBanner: false,
-      home: Login(),
+      home: Peminjam(),
     );
   }
 }
