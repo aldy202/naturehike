@@ -29,13 +29,18 @@ class PeminjamController {
       uid: peminjaman.uid,
     );
 
-    await peminjamCollection.doc(docId).update(pbm.toMap());
+    await docRef.update(pbm.toMap());
     await getPeminjam();
   }
 
-  Future<void> getPeminjam() async {
+  Future<List<DocumentSnapshot>> getPeminjam() async {
     final peminjam = await peminjamCollection.get();
-    streamController.add(peminjam.docs);
+    streamController.sink.add(peminjam.docs);
+
+    // Menutup sink setelah mengirim data
+    streamController.close();
+
+    return peminjam.docs;
   }
 
   Future<void> updatePeminjaman(PeminjamanBarangModel peminjaman) async {

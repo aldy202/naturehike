@@ -134,6 +134,7 @@ class _UpdateBarangState extends State<UpdateBarang> {
                       await barangController.updateBarang(
                         widget.id!,
                         barangModel,
+                        newgambar,
                       );
 
                       Navigator.pop(context);

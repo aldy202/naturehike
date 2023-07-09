@@ -9,7 +9,7 @@ import 'package:naturehike/view/detailpeminjaman.dart';
 import 'package:naturehike/view/peminjamanview.dart';
 
 class Peminjam extends StatefulWidget {
-  const Peminjam({super.key});
+  const Peminjam({Key? key}) : super(key: key);
 
   @override
   State<Peminjam> createState() => _PeminjamState();
@@ -30,12 +30,12 @@ class _PeminjamState extends State<Peminjam> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("List barang"),
+        title: Text("List Data Peminjam"),
       ),
       body: SafeArea(
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Text(
-            'List Barang',
+            'List Data Peminjam',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           SizedBox(
@@ -50,42 +50,60 @@ class _PeminjamState extends State<Peminjam> {
                     child: CircularProgressIndicator(),
                   );
                 }
-                final List<DocumentSnapshot> item = snapshot.data!;
+                final List<DocumentSnapshot> data = snapshot.data!;
 
                 return ListView.builder(
-                  itemCount: item.length,
+                  itemCount: data.length,
                   itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DetailPeminjam(),
-                            ),
-                          );
-                        },
-                        child: Card(
-                          child: ListTile(
-                            title: Text(item[index]['namapeminjam']),
-                            subtitle: Text(item[index]['status']),
-                            trailing: Row(
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    ct.deletePeminjaman(
-                                      item[index]['id'].toString(),
-                                    );
-                                  },
-                                  icon: const Icon(Icons.delete),
-                                )
-                              ],
+                    if (data[index]['uid'] == user.uid) {
+                      return Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailPeminjam(
+                                    // Pass the required data to the detail screen
+                                    // id: data[index]['id'],
+                                    ),
+                              ),
+                            );
+                          },
+                          child: Card(
+                            child: ListTile(
+                              leading: Container(
+                                width: 100,
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  color: Colors.green,
+                                ),
+                                child: Text(
+                                  'No Image',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              title: Text(data[index]['namapeminjam']),
+                              subtitle: Text(data[index]['status']),
+                              trailing: Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      ct.deletePeminjaman(
+                                        data[index]['id'].toString(),
+                                      );
+                                    },
+                                    icon: const Icon(Icons.delete),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    );
+                      );
+                    }
                   },
                 );
               },
@@ -95,7 +113,7 @@ class _PeminjamState extends State<Peminjam> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) => const PeminjamanView(),

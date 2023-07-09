@@ -27,7 +27,7 @@ class _PeminjamanViewState extends State<PeminjamanView> {
   String? alamat;
   String? selectedBarang;
   int? jumlah;
-  String status = 'sedang dipinjam';
+  String? status = 'sedang dipinjam';
 
   @override
   Widget build(BuildContext context) {

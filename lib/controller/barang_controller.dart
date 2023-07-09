@@ -67,6 +67,7 @@ class BarangController {
   Future updateBarang(
     String docId,
     BarangModel barangModel,
+    File? imageFile,
   ) async {
     final BarangModel updatedBarangModel = BarangModel(
       id: docId,
@@ -77,7 +78,7 @@ class BarangController {
       uid: barangModel.uid,
     );
 
-    File? imageFile;
+    
 
     final DocumentSnapshot documentSnapshot =
         await barangCollection.doc(docId).get();
