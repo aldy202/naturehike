@@ -23,7 +23,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'NatureHike',
       debugShowCheckedModeBanner: false,
-      home: Login(),
+      initialRoute: '/login',
+      routes: {
+        '/login': (context) => Login(), // Ganti LoginPage dengan halaman login yang sesuai dalam aplikasi Anda
+        // Daftar rute lainnya
+      },
     );
   }
 }

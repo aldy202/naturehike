@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:naturehike/controller/auth_controller.dart';
 import 'package:naturehike/view/barang.dart';
 import 'package:naturehike/view/peminjam.dart';
 
@@ -8,6 +9,7 @@ import '../model/user_model.dart';
 
 class Home extends StatelessWidget {
   final UserModel loggedInUser;
+  final AuthController authController = AuthController();
 
   Home({required this.loggedInUser});
 
@@ -15,126 +17,147 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: "Hii ",
-                            style: TextStyle(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: "Hii ",
+                              style: TextStyle(
                                 color: Color.fromRGBO(0, 255, 17, 1),
                                 fontSize: 20,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          TextSpan(
-                            text: loggedInUser.name,
-                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            TextSpan(
+                              text: loggedInUser.name,
+                              style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ],
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Image.asset(
-                      "assets/images/person.png",
-                      height: 50,
-                      width: 50,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                "Welcome Admin",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-              ),
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: "Cabang Toko Daerah ",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    TextSpan(
-                      text: loggedInUser.cabang,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Column(
-                children: [
-                  Image.asset(
-                    "assets/images/background.png",
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Choose Your Feature",
+                      Image.asset(
+                        "assets/images/person.png",
+                        height: 50,
+                        width: 50,
                       ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Container(
-                        width: 60,
-                        height: 4,
-                        color: Color.fromARGB(255, 0, 242, 81),
-                      )
                     ],
                   ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Category(
+                ),
+                SizedBox(height: 10),
+                Text(
+                  "Welcome Admin",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Cabang Toko Daerah ",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      TextSpan(
+                        text: loggedInUser.cabang,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10),
+                Column(
+                  children: [
+                    Image.asset("assets/images/background.png"),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Choose Your Feature"),
+                        SizedBox(height: 5),
+                        Container(
+                          width: 60,
+                          height: 4,
+                          color: Color.fromARGB(255, 0, 242, 81),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Category(
                       color: Color.fromARGB(255, 0, 154, 59),
                       imgurl: "assets/images/tools.png",
-                      caption: "List Alat Hiking"),
-                  CategoryLeft(
+                      caption: "List Alat Hiking",
+                    ),
+                    CategoryLeft(
                       color: Color.fromARGB(255, 0, 214, 36),
                       imgurl: "assets/images/camping.png",
-                      caption: "Peminjam Alat Hiking"),
-                ],
-              ),
-            ],
+                      caption: "Peminjam Alat Hiking",
+                    ),
+                  ],
+                ),
+                SizedBox(height: 150),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: ElevatedButton(
+                        
+                        onPressed: () {
+                          // Call logout function from auth controller
+                          authController.signOut();
+                          // Navigate to login page
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            '/login',
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                        ),
+                        child: Text('Logout'),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
-      )),
+      ),
     );
   }
 }
