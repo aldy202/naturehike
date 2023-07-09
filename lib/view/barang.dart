@@ -63,17 +63,6 @@ class _BarangState extends State<Barang> {
                     return Padding(
                       padding: EdgeInsets.all(8.0),
                       child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DetailBarang(
-                                  // Pass the required data to the detail screen
-                                  // id: data[index]['id'],
-                                  ),
-                            ),
-                          );
-                        },
                         child: Card(
                           elevation: 8,
                           child: ListTile(
